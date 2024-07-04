@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebGL Demo Shader</title>
+    <script src="./libs/webgl-utils.js"></script>
+    <script src="./libs/webgl-debug.js"></script>
+    <script src="./libs/cuon-utils.js"></script>
+  </head>
+  <body>
+    <h3>着色器 Shader</h3>
+
+    <ol>
+      <li>
+        着色器分类：
+        <ol>
+          <li>顶点着色器 Vertex Shader</li>
+          <li>片元着色器 Fragment Shader</li>
+        </ol>
+      </li>
+      <li>
+        一个点的绘制顺序
+        <ol>
+          <li>定义着色器源码</li>
+          <li>
+            初始化着色器程序：
+            <ol>
+              <li>创建着色器 gl.createShader</li>
+              <li>往其中设置源码 gl.shaderSource</li>
+              <li>编译着色器 gl.compileShader</li>
+              <li>检查结果 gl.getShaderParameter</li>
+              <li>创建着色器程序 gl.createProgram</li>
+              <li>程序运行着色器 gl.attachShader</li>
+              <li>创建程序链接 gl.linkProgram</li>
+              <li>检查连接结果 gl.getProgramParameter</li>
+            </ol>
+          </li>
+          <li>绘制背景</li>
+          <li>绘制点 gl.drawArrays</li>
+        </ol>
+      </li>
+    </ol>
+    <canvas id="webgl" width="640" height="480"></canvas>
+    <script>
+      /**
+       * 什么是着色器：
+       * https://developer.mozilla.org/zh-CN/docs/Web/API/WebGL_API/Tutorial/Adding_2D_content_to_a_WebGL_context#%E7%9D%80%E8%89%B2%E5%99%A8
+       */
+
+      // 顶点着色器，
+      var VSHADER_SOURCE = `
+        void main() {
+          gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
+          gl_PointSize = 10.0;
+        }
+      `;
+      // 片元着色器
+      var FSHADER_SOURCE = `
+        void main() {
+          gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+        }
+      `;
+
+      function main() {
+        // Retrieve <canvas> element
+        var canvas = document.getElementById("webgl");
+
+        // Get the rendering context for WebGL
+        var gl = getWebGLContext(canvas);
+        if (!gl) {
+          console.log("Failed to get the rendering context for WebGL");
+          return;
+        }
+
+        // Initialize shaders
+        if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+          console.log("Failed to intialize shaders.");
+          return;
+        }
+
+        // Specify the color for clearing <canvas>
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+        // Clear <canvas>
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        // Draw a point
+        gl.drawArrays(gl.POINTS, 0, 1);
+      }
+
+      main();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebGL Demo HelloWorld</title>
+  </head>
+  <body>
+    <!-- https://developer.mozilla.org/zh-CN/docs/Web/API/WebGL_API/Tutorial/Getting_started_with_WebGL -->
+    <h3>认识 WebGL</h3>
+    <ol>
+      <li>如何创建 webgl 上下文</li>
+      <li>
+        背景色如何绘制
+
+        <ol>
+          <li>定义（清除）颜色：gl.clearColor</li>
+          <li>执行清除方法，将颜色刷入约定的缓冲区：gl.clear</li>
+        </ol>
+      </li>
+    </ol>
+    <canvas id="glcanvas" width="640" height="480"></canvas>
+    <script>
+      main();
+      function main() {
+        const canvas = document.querySelector("#glcanvas");
+        // Initialize the GL context
+        const gl = canvas.getContext("webgl");
+
+        // Only continue if WebGL is available and working
+        if (gl === null) {
+          alert("Unable to initialize WebGL. Your browser or machine may not support it.");
+          return;
+        }
+
+        // Set clear color to black, fully opaque
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        // Clear the color buffer with specified clear color
+        gl.clear(gl.COLOR_BUFFER_BIT);
+      }
+    </script>
+  </body>
+</html>
